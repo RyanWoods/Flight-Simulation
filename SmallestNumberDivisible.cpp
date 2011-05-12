@@ -115,9 +115,11 @@ void NumOfPrimes(int numOfInt, vector<int>* ints) {
 /*********************************************************/
 
 /**********************************************************
- **          
- **
- **
+ ** Input Arguments: numOfInt (int)        		 **
+ ** Output variables: x2 (int)    			 **          
+ ** Calling Methods: none				 **
+ **							 **
+ ** This method finds
  **
 **********************************************************/
 int numSqrt(int numOfInt) 
