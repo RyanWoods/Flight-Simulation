@@ -9,7 +9,7 @@ using namespace std;
 
 /*       Function Prototypes       */
 void NumOfPrimes(int numOfInt, vector<int>* ints);
-
+int numSqrt(int numOfInt);
 
 /*********************************************************
  ** Input Arguments: numOfInt (Int)                     **
@@ -34,9 +34,14 @@ int main()
 	// into our final number
 	int numOfInt;
 
+	// This variable holds the square root of numOfInt rounded
+	// to the nearest integer
+	int sqrtOfNumber;
+
 	// This variable holds the number of prime numbers that exist up
-	// to the numOfInt value
+	// to the square root of the numOfInt value
 	int numOfPrimeNumbers;
+
 
 	cout << "Please enter an integer greater than 1" << endl;
 
@@ -45,34 +50,25 @@ int main()
 	vector<int> integers;
 	vector<int>* ints = &integers;
 
-	NumOfPrimes(numOfInt, ints);
+	sqrtOfNumber = numSqrt(numOfInt);
 
-	// This array holds all prim numbers from 1 to numOfInt
-	// The value is returned from numOfPrimes.
-	//int* totalPrimes = new int[numberOfPrimes];
-	
-	// primes will hold the maximum number of 
-	// each prime factor less than the "current number".
-	// i.e. primes[1] = 1 says that there is one 1.
-	//      primes[2] = 5 says that there is a number that has
-	//                  five 2's -> 32 = 2*2*2*2*2
-	int* primes = new int[1];
-
-	
+	NumOfPrimes(sqrtOfNumber, ints);
+	delete ints;
 	return 0;
 }
 
 /*********************************************************
  ** Input Arguments:  numOfInt (int)                    **
- **					  ints (vector<int>)                **
+ **		      ints (vector<int>)                **
  ** Output Variables: numOfPrimes (int)                 **
  ** Calling Methods:  None                              **
- **														**
- **														**
+ **							**			**						       **      
+ **							**			**						       **
  ** Purpose: This method will search from 1 to n and    **
  **          return a list containing all of the primes **
  **          up to n using the Sieve of Eratosthenes    **
- **          algorithm.									**
+ **          algorithm.					**		
+ **							**
  *********************************************************/
 void NumOfPrimes(int numOfInt, vector<int>* ints) {
 
@@ -116,3 +112,26 @@ void NumOfPrimes(int numOfInt, vector<int>* ints) {
 	vector<int> num(5);
 	return;
 }
+/*********************************************************/
+
+/**********************************************************
+ **          
+ **
+ **
+ **
+**********************************************************/
+int numSqrt(int numOfInt) 
+{
+       	float numOfInts = numOfInt;
+	float x1 = numOfInt;
+	cout << "Hey" << endl;
+	for (int i = 0; i<5; i++)
+	{
+		x1 = x1-(((x1)*(x1)-numOfInt)/(2*x1));
+		cout << "Here is x1: " << x1 << endl;
+	}
+	int x2 = x1;
+	cout << "here is x2: " << x2 << endl;
+	return x2;
+}
+
