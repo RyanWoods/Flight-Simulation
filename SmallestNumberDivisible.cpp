@@ -9,9 +9,9 @@
 using namespace std;
 
 /*       Function Prototypes       */
-void NumOfPrimes(int numOfInt, vector<int>* ints);
-int NumSqrt(int numOfInt);
-int PrimeFactor(int numOfInts, int sqrtOfNumbers, vector<int>* pow, vector<int>* ints);
+void NumOfPrimes(float sqrtOfNum, float numOfInts, vector<float>* ints);
+float NumSqrt(float numOfInt);
+float PrimeFactor(float numOfInts, vector<float>* pow, vector<float>* ints);
 
 /*********************************************************
  ** Input Arguments: numOfInt (Int)                     **
@@ -34,34 +34,34 @@ int main()
 	// This variable holds the number that is input by the user and
 	// represents the the largest value that is going to divide
 	// into our final number
-	int numOfInt;
+	float numOfInt;
 
 	// This variable holds the square root of numOfInt rounded
 	// to the nearest integer
-	int sqrtOfNumber;
+	float sqrtOfNumber;
 
 	// This variable holds the number of prime numbers that exist up
 	// to the square root of the numOfInt value
-	int numOfPrimeNumbers;
+	float numOfPrimeNumbers;
 
 
 	cout << "Please enter an integer greater than 1" << endl;
 
 	cin >> numOfInt;
 	
-	vector<int> integers;
-	vector<int>* ints = &integers;
+	vector<float> integers;
+	vector<float>* ints = &integers;
 
-	vector<int> powers;
-	vector<int>* pow = &powers;
+	vector<float> powers;
+	vector<float>* pow = &powers;
 	
-	int answer = 0;
+	float answer = 0.0;
 	sqrtOfNumber = NumSqrt(numOfInt);
 
-	NumOfPrimes(sqrtOfNumber, ints);
+	NumOfPrimes(sqrtOfNumber, numOfInt, ints);
 	cout << "This is inbetween NumOfPrimes and PrimeFactor" << endl;	
 
-	answer = PrimeFactor(numOfInt, sqrtOfNumber,  pow, ints);
+	answer = PrimeFactor(numOfInt, pow, ints);
 	return 0;
 }
 
@@ -80,11 +80,11 @@ int main()
  **          algorithm.					**		
  **							**
  *********************************************************/
-void NumOfPrimes(int numOfInt, vector<int>* ints) {
+void NumOfPrimes(float sqrtOfNumber, float numOfInts, vector<float>* ints) {
 
 	// This loop fills the array ints with all numbers from
 	// 1 to numOfInt
-	for (int i = 1; i<=numOfInt; i++)
+	for ( float i = 1; i<=numOfInts; i++)
 	{
 		ints->push_back(i);
 		
@@ -92,20 +92,20 @@ void NumOfPrimes(int numOfInt, vector<int>* ints) {
 
 	// This loop removes all non-primes from
 	// the  numOfInt
-	for (int j = 2; j<=numOfInt; j++) {
-		int k = j + j;
-		for (k; k<=numOfInt; k=k+j) {			
+	for (float j = 2; j<= numOfInts; j++) {
+		float k = j + j;
+		for (k; k<= numOfInts; k=k+j) {			
 				ints->at(k-1) = 0;			
 		}
 	}
 	
-	vector<int> primeshere;
-	vector<int>* primes = &primeshere;
+	vector<float> primeshere;
+	vector<float>* primes = &primeshere;
 	int k = 0;
 
 	// This loop assigns all of the primes in order
 	// to the primeshere vector.
-	for (int i = 0; i<numOfInt; i++) {
+	for (float i = 0; i<numOfInts; i++) {
 		if (ints->at(i) != 0) {
 		primes->push_back(ints->at(i));
 		k++;
@@ -113,7 +113,7 @@ void NumOfPrimes(int numOfInt, vector<int>* ints) {
 	}
 
 	// This loop prints primeshere out
-	for (int i = 0; i<k; i++) {
+	for (float i = 0; i<k; i++) {
 		cout << primes->at(i) << endl;
 	}
 	return;
@@ -129,17 +129,17 @@ void NumOfPrimes(int numOfInt, vector<int>* ints) {
  ** then rounds that number to the nearest int.         **
  **							**
 *********************************************************/
-int NumSqrt(int numOfInt) 
+float NumSqrt(float numOfInt) 
 {
        	float numOfInts = numOfInt;
 	float x1 = numOfInt;
 	cout << "Hey" << endl;
-	for (int i = 0; i<5; i++)
+	for (float i = 0; i<5; i++)
 	{
 		x1 = x1-(((x1)*(x1)-numOfInt)/(2*x1));
 		cout << "Here is x1: " << x1 << endl;
 	}
-	int x2 = ceil(x1);
+	float x2 = ceil(x1);
 	cout << "here is x2: " << x2 << endl;
 	return x2;
 }
@@ -150,44 +150,42 @@ int NumSqrt(int numOfInt)
  **
  ** 
  *********************************************************/
-int PrimeFactor(int numOfInt, int sqrtOfNumber, vector<int>* pow, vector<int>* ints) 
+float PrimeFactor(float numOfInt, vector<float>* pow, vector<float>* ints) 
 {
-	int answer = 0;
-	vector<int> test;
-	for (int n = 0; n <= ints->size(); n++) 
+	float answer = 0;
+	vector<float> test;
+	for (float n = 0; n <= ints->size(); n++) 
 	{
 		test.push_back(0);
 		pow->push_back(0);
 	}
-        for (int i = 2; i <= numOfInt; i++) 
+        for (float i = 2; i <= numOfInt; i++) 
 	{
-		int k = i;
-		cout << "k outside: " << k << endl;
-		for (int j = 1; j < ints->size(); j++) 
+		float k = i;
+		for (float j = 1; j < ints->size(); j++) 
 		{
-			cout << "hey hey hey" << endl;
-			if ( k % ints->at(j) == 0)
+			if ( fmodf(k, ints->at(j)) == 0)
 			{
-			cout << "this is k before: " << k << " and j before: " << ints->at(j) << endl;
 				test.at(j)++;
 				k = k/ints->at(j);
 				j = 1;
-			cout << "this is k: " << k << " and this is j: " << ints->at(j) << endl;
- 			}
+			}
 			if (k == 1) 
 			{ 
 				j = ints->size();
 			} 
 		}
-		for (int j = 0; j < ints->size(); j++)
+		for (float j = 0; j < ints->size(); j++)
 		{
+			cout << "this is j: " << j << " and this is pow.at(j) " << pow->at(j) << endl;
 			if (test.at(j) > pow->at(j))
 			{
 				pow->at(j) = test.at(j);
+				test.at(j) = 0;
 			}
 		}		
 	}
-	for (int j = 0; j < ints->size(); j++) 
+	for (float j = 0; j < ints->size(); j++) 
 	{
 		cout << "There are " << pow->at(j) << " of " << ints->at(j) << endl;
 	}	
