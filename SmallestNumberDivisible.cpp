@@ -4,12 +4,14 @@
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <cmath>
 
 using namespace std;
 
 /*       Function Prototypes       */
 void NumOfPrimes(int numOfInt, vector<int>* ints);
-int numSqrt(int numOfInt);
+int NumSqrt(int numOfInt);
+int PrimeFactor(int numOfInts, int sqrtOfNumbers, vector<int>* pow, vector<int>* ints);
 
 /*********************************************************
  ** Input Arguments: numOfInt (Int)                     **
@@ -50,10 +52,16 @@ int main()
 	vector<int> integers;
 	vector<int>* ints = &integers;
 
-	sqrtOfNumber = numSqrt(numOfInt);
+	vector<int> powers;
+	vector<int>* pow = &powers;
+	
+	int answer = 0;
+	sqrtOfNumber = NumSqrt(numOfInt);
 
 	NumOfPrimes(sqrtOfNumber, ints);
-	delete ints;
+	cout << "This is inbetween NumOfPrimes and PrimeFactor" << endl;	
+
+	answer = PrimeFactor(numOfInt, sqrtOfNumber,  pow, ints);
 	return 0;
 }
 
@@ -62,8 +70,10 @@ int main()
  **		      ints (vector<int>)                **
  ** Output Variables: numOfPrimes (int)                 **
  ** Calling Methods:  None                              **
- **							**			**						       **      
- **							**			**						       **
+ **							**			
+ **    						        **      
+ **							**			
+ **						        **
  ** Purpose: This method will search from 1 to n and    **
  **          return a list containing all of the primes **
  **          up to n using the Sieve of Eratosthenes    **
@@ -106,23 +116,20 @@ void NumOfPrimes(int numOfInt, vector<int>* ints) {
 	for (int i = 0; i<k; i++) {
 		cout << primes->at(i) << endl;
 	}
-	int z = 1;
-	while ( z != 0) {
-	}
-	vector<int> num(5);
 	return;
 }
 /*********************************************************/
 
-/**********************************************************
- ** Input Arguments: numOfInt (int)        		 **
- ** Output variables: x2 (int)    			 **          
- ** Calling Methods: none				 **
- **							 **
- ** This method finds
- **
-**********************************************************/
-int numSqrt(int numOfInt) 
+/*********************************************************
+ ** Input Arguments: numOfInt (int)        	  	**
+ ** Output variables: x2 (int)    			**          
+ ** Calling Methods: none				**
+ **							**
+ ** This method finds the square root of numOfInt and   **
+ ** then rounds that number to the nearest int.         **
+ **							**
+*********************************************************/
+int NumSqrt(int numOfInt) 
 {
        	float numOfInts = numOfInt;
 	float x1 = numOfInt;
@@ -132,8 +139,57 @@ int numSqrt(int numOfInt)
 		x1 = x1-(((x1)*(x1)-numOfInt)/(2*x1));
 		cout << "Here is x1: " << x1 << endl;
 	}
-	int x2 = x1;
+	int x2 = ceil(x1);
 	cout << "here is x2: " << x2 << endl;
 	return x2;
 }
+/*********************************************************/
 
+/*********************************************************
+ ** 
+ **
+ ** 
+ *********************************************************/
+int PrimeFactor(int numOfInt, int sqrtOfNumber, vector<int>* pow, vector<int>* ints) 
+{
+	int answer = 0;
+	vector<int> test;
+	for (int n = 0; n <= ints->size(); n++) 
+	{
+		test.push_back(0);
+		pow->push_back(0);
+	}
+        for (int i = 2; i <= numOfInt; i++) 
+	{
+		int k = i;
+		cout << "k outside: " << k << endl;
+		for (int j = 1; j < ints->size(); j++) 
+		{
+			cout << "hey hey hey" << endl;
+			if ( k % ints->at(j) == 0)
+			{
+			cout << "this is k before: " << k << " and j before: " << ints->at(j) << endl;
+				test.at(j)++;
+				k = k/ints->at(j);
+				j = 1;
+			cout << "this is k: " << k << " and this is j: " << ints->at(j) << endl;
+ 			}
+			if (k == 1) 
+			{ 
+				j = ints->size();
+			} 
+		}
+		for (int j = 0; j < ints->size(); j++)
+		{
+			if (test.at(j) > pow->at(j))
+			{
+				pow->at(j) = test.at(j);
+			}
+		}		
+	}
+	for (int j = 0; j < ints->size(); j++) 
+	{
+		cout << "There are " << pow->at(j) << " of " << ints->at(j) << endl;
+	}	
+	return answer;
+}
