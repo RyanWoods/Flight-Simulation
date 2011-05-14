@@ -158,13 +158,16 @@ float PrimeFactor(float numOfInt, vector<float>* pow, vector<float>* ints)
     	// to test against the power vector.
 	vector<float> test;
 	// This loop initializes the test and pow* vectors with 0
-	for (float n = 0; n <= ints->size(); n++) 
+	for (int n = 0; n <= ints->size(); n++) 
 	{
 		test.push_back(0);
 		pow->push_back(0);
 	}
+	for (int i = 0; i < ints->size(); i++) {
+	cout << "ints " << ints->at(i) << endl;
+	}
 	// This loop moves from 2 to n
-        for (float i = 2; i <= numOfInt; i++) 
+        for (int i = 1; i <= numOfInt; i++) 
 	{
 		
 		// This sets k = to i so k can be manipulated without
@@ -172,43 +175,36 @@ float PrimeFactor(float numOfInt, vector<float>* pow, vector<float>* ints)
 		float k = i;
 		// 
 		// This loop finds the prime factors for each number i
-		for (float j = 0; j < ints->size(); j++) 
+		for (int j = 1; j < ints->size(); j++) 
 		{
-			// determines if k % ints->at(j) = 0
-			if ( fmodf(k, ints->at(j)) == 0)
+			cout << "j is: " << j << "and ints is: " << ints->at(j) << endl;
+			if (ints->at(j) != 0) 
 			{
-				// Increase the power number at test(j)
-				test.at(j)++;
-				// decrease k by the prime factor
-				k = k/ints->at(j);
-				// start back at the prime factor 2 and 
-				// reiterate
-				j = 1;
-			}
-			// when k is divided enough by prime factors to become
-			// 1, set j to the size of ints* so that the loop will end
-			if (k == 1) 
-			{ 
-				j = ints->size();
+				// determines if k % ints->at(j) = 0
+				if ( fmodf(k, ints->at(j)) == 0)
+				{
+					// Increase the power number at test(j)
+					test.at(j)++;
+					// decrease k by the prime factor
+					k = k/ints->at(j);
+					// start back at the prime factor 2 and 
+					// reiterate
+					j = 0;
+				}
 			} 
 		}
 		// This loop sets the new power
-		int d = 0;
-		for (float j = 0; j < ints->size(); j++)
+		for (int j = 1; j < ints->size(); j++)
 		{
-			cout << "this is j: " << j << " and this is pow.at(j) " << pow->at(j) << endl;
 			if (test.at(j) > pow->at(j))
 			{
-				cin >> d;
 				pow->at(j) = test.at(j);
-			}
-				test.at(j) = 0.0;
-			cout << "this is j: after: " << j << " and this is pow.at(j) " << pow->at(j) << endl;		
-			cout << test.at(j) << endl;
+			}	
+		test.at(j) = 0;	
 		}		
 	}
 	// This loop displays the power at each int
-	for (float j = 0; j < ints->size(); j++) 
+	for (int j = 0; j < ints->size(); j++) 
 	{
 		cout << "There are " << pow->at(j) << " of " << ints->at(j) << endl;
 	}	
