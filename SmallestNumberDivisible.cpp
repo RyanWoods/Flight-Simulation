@@ -9,8 +9,7 @@
 using namespace std;
 
 /*       Function Prototypes       */
-void NumOfPrimes(float sqrtOfNum, float numOfInts, vector<float>* ints);
-float NumSqrt(float numOfInt);
+void NumOfPrimes(float numOfInts, vector<float>* ints);
 float PrimeFactor(float numOfInts, vector<float>* pow, vector<float>* ints);
 
 /*********************************************************
@@ -36,10 +35,6 @@ int main()
 	// into our final number
 	float numOfInt;
 
-	// This variable holds the square root of numOfInt rounded
-	// to the nearest integer
-	float sqrtOfNumber;
-
 	// This variable holds the number of prime numbers that exist up
 	// to the square root of the numOfInt value
 	float numOfPrimeNumbers;
@@ -53,26 +48,24 @@ int main()
 	vector<float>* ints = &integers;
 
 	vector<float> powers;
-	vector<float>* pow = &powers;
+	vector<float>* pows = &powers;
 	
 	float answer = 0.0;
-	sqrtOfNumber = NumSqrt(numOfInt);
-
-	NumOfPrimes(sqrtOfNumber, numOfInt, ints);
+	
+	NumOfPrimes( numOfInt, ints);
 	cout << "This is inbetween NumOfPrimes and PrimeFactor" << endl;	
 
-	answer = PrimeFactor(numOfInt, pow, ints);
+	answer = PrimeFactor(numOfInt, pows, ints);
 	return 0;
 }
 
 /*********************************************************
- ** Input Arguments:  numOfInt (int)                    **
- **		      ints (vector<int>)                **
- ** Output Variables: numOfPrimes (int)                 **
+ ** Input Arguments:  numOfInt (float)                  **
+ **		      ints (vector<float>)              **
+ ** Output Variables: None                              **
  ** Calling Methods:  None                              **
  **							**			
- **    						        **      
- **							**			
+ **    						        **	
  **						        **
  ** Purpose: This method will search from 1 to n and    **
  **          return a list containing all of the primes **
@@ -80,11 +73,11 @@ int main()
  **          algorithm.					**		
  **							**
  *********************************************************/
-void NumOfPrimes(float sqrtOfNumber, float numOfInts, vector<float>* ints) {
+void NumOfPrimes( float numOfInts, vector<float>* ints) {
 
 	// This loop fills the array ints with all numbers from
 	// 1 to numOfInt
-	for ( float i = 1; i<=numOfInts; i++)
+	for ( int i = 1; i<=numOfInts; i++)
 	{
 		ints->push_back(i);
 		
@@ -113,47 +106,37 @@ void NumOfPrimes(float sqrtOfNumber, float numOfInts, vector<float>* ints) {
 	}
 
 	// This loop prints primeshere out
-	for (float i = 0; i<k; i++) {
-		cout << primes->at(i) << endl;
-	}
+	// uncomment to print out the primes
+	//for (float i = 0; i<k; i++) {
+	//	cout << primes->at(i) << endl;
+	//}
 	return;
 }
 /*********************************************************/
 
 /*********************************************************
- ** Input Arguments: numOfInt (int)        	  	**
- ** Output variables: x2 (int)    			**          
+ ** Input Variables: numOfInt (float)  			**
+ ** 		     pows (vector<float>*)		**
+ **  		     ints (vector<float>*)		**
+ ** Output Variables: answer (float)			**
  ** Calling Methods: none				**
- **							**
- ** This method finds the square root of numOfInt and   **
- ** then rounds that number to the nearest int.         **
- **							**
-*********************************************************/
-float NumSqrt(float numOfInt) 
-{
-       	float numOfInts = numOfInt;
-	float x1 = numOfInt;
-	cout << "Hey" << endl;
-	for (float i = 0; i<5; i++)
-	{
-		x1 = x1-(((x1)*(x1)-numOfInt)/(2*x1));
-		cout << "Here is x1: " << x1 << endl;
-	}
-	float x2 = ceil(x1);
-	cout << "here is x2: " << x2 << endl;
-	return x2;
-}
-/*********************************************************/
-
-/*********************************************************
- ** 
- **
- ** 
+ ** 							**
+ ** This method will go through each number 1 - n and   **
+ ** find the prime factors of each number. If there are **
+ ** more prime numbers in one number from 1 - n than in **
+ ** another number, that number is placed in pows       **
+ ** instead. e.g. 4 has 2-twos but 8 has 3 therefore    **
+ ** 3 will be stored in the twos place of pows instead  **
+ ** of 2 or 5. After the maximum number of primes are   **
+ ** placed in the pows vector, they are all multiplied  **
+ ** together and that is the answer. The smallest       **
+ ** number divisible by 1 - n.                          **
+ ** 							**
  *********************************************************/
-float PrimeFactor(float numOfInt, vector<float>* pow, vector<float>* ints) 
+float PrimeFactor(float numOfInt, vector<float>* pows, vector<float>* ints) 
 {
 	// This holds the answer in the form of a float
-	float answer = 0;
+	float answer = 1;
 	// This vector of floats holds the number of each digits power
     	// to test against the power vector.
 	vector<float> test;
@@ -161,7 +144,7 @@ float PrimeFactor(float numOfInt, vector<float>* pow, vector<float>* ints)
 	for (int n = 0; n <= ints->size(); n++) 
 	{
 		test.push_back(0);
-		pow->push_back(0);
+		pows->push_back(0);
 	}
 	for (int i = 0; i < ints->size(); i++) {
 	cout << "ints " << ints->at(i) << endl;
@@ -196,9 +179,9 @@ float PrimeFactor(float numOfInt, vector<float>* pow, vector<float>* ints)
 		// This loop sets the new power
 		for (int j = 1; j < ints->size(); j++)
 		{
-			if (test.at(j) > pow->at(j))
+			if (test.at(j) > pows->at(j))
 			{
-				pow->at(j) = test.at(j);
+				pows->at(j) = test.at(j);
 			}	
 		test.at(j) = 0;	
 		}		
@@ -206,7 +189,12 @@ float PrimeFactor(float numOfInt, vector<float>* pow, vector<float>* ints)
 	// This loop displays the power at each int
 	for (int j = 0; j < ints->size(); j++) 
 	{
-		cout << "There are " << pow->at(j) << " of " << ints->at(j) << endl;
-	}	
+		if (ints->at(j) != 0) {
+			float a = ints->at(j);
+			answer = answer * pow(a, pows->at(j) );
+		}
+	}
+	cout.precision(0);	
+	cout << fixed << answer << endl;
 	return answer;
 }
